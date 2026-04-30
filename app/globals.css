@@ -151,6 +151,119 @@ html.light .bg-white\/10 {
 }
 
 /* ============================= */
+/* MATTE BACKING — Navbar & Contact
+   Opaque enough to block the
+   lattice/crystal bg from bleeding
+   through and hurting legibility   */
+/* ============================= */
+
+/* Navbar pill — dark mode */
+nav .glass {
+  background: rgba(8, 8, 20, 0.82);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-color: rgba(139, 92, 246, 0.18);
+}
+
+/* Navbar pill — light mode */
+html.light nav .glass {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-color: rgba(99, 102, 241, 0.16);
+  box-shadow:
+    0 4px 24px rgba(99, 102, 241, 0.10),
+    0 1px 6px rgba(15, 23, 42, 0.07);
+}
+
+/* Navbar nav links in light mode */
+html.light nav .glass a.text-muted {
+  color: rgba(15, 23, 42, 0.65) !important;
+}
+html.light nav .glass a.text-muted:hover {
+  color: #0f172a !important;
+}
+html.light nav .glass .text-main {
+  color: #0f172a !important;
+}
+
+/* Divider line between links and theme toggle */
+html.light nav .glass .bg-white\/10 {
+  background-color: rgba(15, 23, 42, 0.12) !important;
+}
+
+/* Download CV button in light mode */
+html.light nav .nav-glow {
+  background: rgba(99, 102, 241, 0.08);
+  border-color: rgba(99, 102, 241, 0.22);
+  color: #0f172a;
+}
+
+/* Contact form card — dark mode */
+#contact .glass {
+  background: rgba(10, 10, 22, 0.84);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-color: rgba(139, 92, 246, 0.18);
+}
+
+/* Contact form card — light mode */
+html.light #contact .glass {
+  background: rgba(255, 255, 255, 0.90);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-color: rgba(99, 102, 241, 0.16);
+  box-shadow:
+    0 8px 32px rgba(99, 102, 241, 0.10),
+    0 2px 8px rgba(15, 23, 42, 0.06);
+}
+
+/* Contact form text in light mode */
+html.light #contact .glass .text-muted {
+  color: rgba(15, 23, 42, 0.68) !important;
+}
+html.light #contact .glass .text-main {
+  color: #0f172a !important;
+}
+
+/* Contact heading and subtext outside the glass card */
+html.light #contact h2.text-main {
+  color: #0f172a !important;
+}
+html.light #contact p.text-muted {
+  color: rgba(15, 23, 42, 0.68) !important;
+}
+
+/* Input / textarea bottom-border in light mode */
+html.light #contact .border-white\/20 {
+  border-color: rgba(15, 23, 42, 0.18) !important;
+}
+
+/* Error message */
+html.light #contact .text-red-400 {
+  color: #dc2626 !important;
+}
+
+/* Opaque variant — blocks lattice/crystal background completely.
+   Used on Navbar and Contact form so the grid never bleeds through. */
+.glass-solid {
+  background: rgba(10, 10, 20, 0.88);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(24px) saturate(1.4);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  box-shadow: 0 8px 32px rgba(112, 35, 205, 0.18);
+  border-radius: 1rem;
+}
+
+html.light .glass-solid {
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  box-shadow:
+    0 8px 32px rgba(99, 102, 241, 0.1),
+    0 2px 8px rgba(15, 23, 42, 0.06);
+}
+
+/* ============================= */
 /* GLOW STYLES */
 /* ============================= */
 
@@ -712,12 +825,10 @@ html.light .tech-csharp:hover {
 /* CARD SURFACE (theme-aware)   */
 /* ============================= */
 
-/* Dark mode — original deep dark card */
 .card-surface {
   background: rgba(11, 11, 24, 0.75);
 }
 
-/* Light mode — clean white card */
 html.light .card-surface {
   background: rgba(255, 255, 255, 0.92);
   border-color: rgba(99, 102, 241, 0.12) !important;
@@ -730,70 +841,96 @@ html.light .card-surface {
 /* LIGHT MODE — CARD TEXT FIXES */
 /* ============================= */
 
-/* All headings inside cards */
 html.light .card-surface h2,
 html.light .card-surface h3 {
   color: #0f172a !important;
 }
 
-/* The ul has text-muted applied directly — target it and all its children */
 html.light .card-surface ul,
 html.light .card-surface ul li,
 html.light .card-surface ul li span {
   color: rgba(15, 23, 42, 0.78) !important;
 }
 
-/* Any standalone .text-muted inside a card */
 html.light .card-surface .text-muted {
   color: rgba(15, 23, 42, 0.72) !important;
 }
 
-/* .text-main inside cards (e.g. "Languages & Tools" label) */
 html.light .card-surface .text-main {
   color: #0f172a !important;
 }
 
-/* Subtitle text (e.g. "Software Engineering Project") */
 html.light .card-surface .text-indigo-300 {
   color: #4338ca !important;
 }
 
-/* Icon inside card icon box */
-html.light .card-surface .text-indigo-300 svg {
-  color: #4338ca;
-}
-
-/* Card icon box */
 html.light .card-surface .bg-white\/5 {
   background-color: rgba(99, 102, 241, 0.08) !important;
   border-color: rgba(99, 102, 241, 0.14) !important;
 }
 
-/* Chip borders inside cards */
 html.light .card-surface .border-white\/10 {
   border-color: rgba(99, 102, 241, 0.14) !important;
 }
 
-/* Role/company/date pill chips */
 html.light .card-surface .bg-black\/20 {
   background-color: rgba(99, 102, 241, 0.08) !important;
   color: #3730a3 !important;
 }
 
-/* Metric badges (TrendingUp chips in Timeline) */
 html.light .card-surface .bg-indigo-500\/10 {
   background-color: rgba(99, 102, 241, 0.1) !important;
   border-color: rgba(99, 102, 241, 0.2) !important;
 }
+
 html.light .card-surface .text-indigo-100 {
   color: #3730a3 !important;
 }
 
-/* Section label pills outside cards ("Selected Work", "Capability Stack" etc.) */
 html.light .inline-flex.text-indigo-300 {
   color: #4338ca !important;
   background-color: rgba(99, 102, 241, 0.08) !important;
   border-color: rgba(99, 102, 241, 0.16) !important;
+}
+
+/* ============================= */
+/* LIGHT MODE — CONTACT FORM    */
+/* ============================= */
+
+html.light .glass-solid .text-muted {
+  color: rgba(15, 23, 42, 0.72) !important;
+}
+
+html.light .glass-solid h2.text-main {
+  color: #0f172a !important;
+}
+
+html.light .glass-solid .border-white\/20 {
+  border-color: rgba(15, 23, 42, 0.18) !important;
+}
+
+html.light .glass-solid .text-violet-400 {
+  color: #6d28d9 !important;
+}
+
+/* ============================= */
+/* LIGHT MODE — NAVBAR          */
+/* ============================= */
+
+html.light nav .glass-solid .text-muted {
+  color: rgba(15, 23, 42, 0.65) !important;
+}
+
+html.light nav .glass-solid .text-muted:hover {
+  color: #0f172a !important;
+}
+
+html.light nav .glass-solid .text-main {
+  color: #0f172a !important;
+}
+
+html.light nav .glass-solid .bg-white\/10 {
+  background-color: rgba(15, 23, 42, 0.12) !important;
 }
 
 /* ============================= */
