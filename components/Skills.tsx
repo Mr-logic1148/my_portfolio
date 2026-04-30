@@ -121,7 +121,7 @@ export default function Skills() {
             transition={{ duration: 0.6, delay: index * 0.12 }}
             viewport={{ once: true }}
             whileHover={{ y: -6, scale: 1.01 }}
-            className="group relative overflow-hidden rounded-[28px] border border-white/10 bg-[#0b0b18]/75 p-8 backdrop-blur-xl shadow-[0_8px_40px_rgba(0,0,0,0.28)] transition-all duration-300"
+            className="group relative overflow-hidden rounded-[28px] border border-white/10 card-surface p-8 backdrop-blur-xl shadow-[0_8px_40px_rgba(0,0,0,0.28)] transition-all duration-300"
           >
             <div className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${category.accent}`} />
             <div className="absolute -right-16 -top-20 h-40 w-40 rounded-full bg-violet-500/10 opacity-70 blur-3xl transition-opacity group-hover:opacity-100" />
