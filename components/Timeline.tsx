@@ -87,7 +87,7 @@ export default function Timeline() {
 
         <h2 className="mt-6 text-3xl font-semibold text-main md:text-5xl">
           Experience that shows impact,
-          <span className="block bg-gradient-to-r from-indigo-300 via-violet-300 to-fuchsia-300 bg-clip-text text-transparent">
+          <span className="block pb-1 bg-gradient-to-r from-indigo-300 via-violet-300 to-fuchsia-300 bg-clip-text text-transparent">
             not just job titles
           </span>
         </h2>
@@ -188,7 +188,7 @@ function ExperienceCard({ item }: { item: ExperienceItem }) {
           </span>
         </div>
 
-        <h3 className="text-2xl font-semibold leading-tight text-main">
+        <h3 className="text-2xl font-semibold leading-normal text-main">
           {item.role}
         </h3>
 
