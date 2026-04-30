@@ -110,7 +110,7 @@ export default function Projects() {
 
         <h2 className="mt-6 text-3xl font-semibold text-main md:text-5xl">
           Projects built with
-          <span className="block pb-1 bg-gradient-to-r from-indigo-300 via-violet-300 to-fuchsia-300 bg-clip-text text-transparent">
+          <span className="block pb-3 bg-gradient-to-r from-indigo-300 via-violet-300 to-fuchsia-300 bg-clip-text text-transparent">
             technical depth and real outcomes
           </span>
         </h2>
