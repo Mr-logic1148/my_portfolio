@@ -40,7 +40,7 @@ export default function Hero() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.7, delay: 0.45 }}
-                    className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-indigo-400 via-violet-400 to-purple-500 bg-clip-text text-transparent animate-glow"
+                    className="pb-2 text-5xl md:text-7xl font-bold bg-gradient-to-r from-indigo-400 via-violet-400 to-purple-500 bg-clip-text text-transparent animate-glow"
                   >
                     Mehraj Gaud
                   </motion.h1>
