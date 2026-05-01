@@ -32,7 +32,7 @@ export default function FloatingSocials() {
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -20 }}
           transition={{ duration: 0.35, ease: 'easeOut' }}
-          className="fixed top-6 left-6 z-50 flex gap-4"
+          className="fixed top-6 left-6 z-50 hidden md:flex gap-4"
         >
           <a
             href="https://www.linkedin.com/in/mehraj-gaud"
