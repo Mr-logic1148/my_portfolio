@@ -11,7 +11,7 @@ export const metadata = {
   openGraph: {
     title: 'Mehraj Gaud — Full-Stack Developer',
     description: 'Building high-end, scalable web experiences with modern technologies.',
-    url: 'https://your-vercel-url.vercel.app', // 👈 replace with your actual URL
+    url: 'https://mrlogic0631.dev/', // 👈 replace with your actual URL
     siteName: 'Mehraj Gaud Portfolio',
     images: [
       {
