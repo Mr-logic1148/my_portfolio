@@ -12,7 +12,7 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="relative py-40 px-6 max-w-xl mx-auto text-center overflow-hidden"
+      className="relative py-16 md:py-40 px-4 sm:px-6 max-w-xl mx-auto text-center overflow-hidden"
     >
       {/* Ambient Orbs */}
       <div className="absolute -top-24 -left-24 w-72 h-72 bg-violet-600/20 rounded-full blur-3xl animate-pulse" />
@@ -24,12 +24,12 @@ export default function Contact() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="text-4xl font-semibold mb-6 text-main"
+        className="text-2xl sm:text-4xl font-semibold mb-4 sm:mb-6 text-main"
       >
         Let’s Build Something ✨
       </motion.h2>
 
-      <p className="mb-12 max-w-md mx-auto text-muted">
+      <p className="mb-8 sm:mb-12 max-w-md mx-auto text-muted text-sm sm:text-base">
         Have an idea, a project, or just want to say hi?
         I’m always open to meaningful conversations.
       </p>
@@ -72,7 +72,7 @@ export default function Contact() {
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
-        className="glass relative p-10 space-y-6"
+        className="glass relative p-6 sm:p-10 space-y-6"
       >
         <AnimatePresence mode="wait">
           {!sent ? (
