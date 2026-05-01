@@ -1,6 +1,6 @@
 'use client'
 
-import { AnimatePresence, motion, useMotionValue, useSpring } from 'framer-motion'
+import { AnimatePresence, motion, useSpring } from 'framer-motion'
 import {
   Activity,
   Building2,
@@ -289,48 +289,34 @@ function CardGlow({ glow }: { glow: GlowPalette }) {
 
 /* ═══════════════════════════════════════════════════════════
    MOUSE-TRACKED INNER GLOW
-   As the user moves their cursor over the card, a soft
-   radial gradient follows — like a torch shining on it.
-   This is the "wow" that only reveals on interaction.
+   Soft radial gradient that follows the cursor — like a torch
+   shining on frosted glass. pointer-events: none throughout
+   so underlying badges and content stay fully interactive.
 ═══════════════════════════════════════════════════════════ */
-function MouseGlow({ glow }: { glow: GlowPalette }) {
-  const cardRef = useRef<HTMLDivElement>(null)
-  const rawX    = useMotionValue(0.5)
-  const rawY    = useMotionValue(0.5)
-  const x       = useSpring(rawX, { stiffness: 120, damping: 20 })
-  const y       = useSpring(rawY, { stiffness: 120, damping: 20 })
-  const opacity = useMotionValue(0)
-  const springOpacity = useSpring(opacity, { stiffness: 80, damping: 18 })
-
-  const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = cardRef.current?.getBoundingClientRect()
-    if (!rect) return
-    rawX.set((e.clientX - rect.left) / rect.width)
-    rawY.set((e.clientY - rect.top) / rect.height)
-  }
+function MouseGlow({ glow, mouseX, mouseY, visible }: {
+  glow: GlowPalette
+  mouseX: number   // 0–1 fraction of card width
+  mouseY: number   // 0–1 fraction of card height
+  visible: boolean
+}) {
+  const opacity = useSpring(visible ? 1 : 0, { stiffness: 80, damping: 18 })
 
   return (
-    <div
-      ref={cardRef}
-      onMouseMove={handleMove}
-      onMouseEnter={() => opacity.set(1)}
-      onMouseLeave={() => opacity.set(0)}
-      style={{ position: 'absolute', inset: 0, borderRadius: '32px', overflow: 'hidden', zIndex: 5, pointerEvents: 'all' }}
-    >
-      <motion.div
-        style={{
-          position:   'absolute',
-          inset:      0,
-          opacity:    springOpacity,
-          background: `radial-gradient(
-            600px circle at ${x.get() * 100}% ${y.get() * 100}%,
-            ${glow.accent}14 0%,
-            transparent 60%
-          )`,
-          pointerEvents: 'none',
-        }}
-      />
-    </div>
+    <motion.div
+      style={{
+        position:      'absolute',
+        inset:         0,
+        opacity,
+        background:    `radial-gradient(
+          600px circle at ${mouseX * 100}% ${mouseY * 100}%,
+          ${glow.accent}12 0%,
+          transparent 60%
+        )`,
+        pointerEvents: 'none',
+        zIndex:        5,
+        borderRadius:  '32px',
+      }}
+    />
   )
 }
 
@@ -374,9 +360,19 @@ function ArrowButton({ direction, onClick, glow, label }: {
 ═══════════════════════════════════════════════════════════ */
 export default function Projects() {
   const [[index, direction], setSlide] = useState([0, 0])
-  const project = projects[index]
-  const autoRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const project    = projects[index]
+  const autoRef    = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const isHovered  = useRef(false)
+  const cardRef    = useRef<HTMLDivElement>(null)
+  const [mousePos, setMousePos]   = useState({ x: 0.5, y: 0.5 })
+  const [cardHovered, setCardHovered] = useState(false)
 
+  // Silent slide — used by auto-advance (no sound)
+  const advance = useCallback((dir: number) => {
+    setSlide(([prev]) => [(prev + dir + projects.length) % projects.length, dir])
+  }, [])
+
+  // Arrow/keyboard slide — plays sound
   const go = useCallback((dir: number) => {
     playClickSound()
     setSlide(([prev]) => [(prev + dir + projects.length) % projects.length, dir])
@@ -384,8 +380,18 @@ export default function Projects() {
 
   const resetAuto = useCallback(() => {
     if (autoRef.current) clearTimeout(autoRef.current)
-    autoRef.current = setTimeout(() => go(1), 7000)
-  }, [go])
+    const schedule = () => {
+      autoRef.current = setTimeout(() => {
+        if (!isHovered.current) {
+          advance(1)
+        } else {
+          // Hovered — keep rescheduling silently until not hovered
+          schedule()
+        }
+      }, 7000)
+    }
+    schedule()
+  }, [advance])
 
   useEffect(() => {
     resetAuto()
@@ -428,7 +434,12 @@ export default function Projects() {
 
       {/* Stage */}
       <div className="relative" style={{ perspective: '1200px' }}>
-        <div className="relative" style={{ minHeight: '460px' }}>
+        <div
+          className="relative"
+          style={{ minHeight: '460px' }}
+          onMouseEnter={() => { isHovered.current = true }}
+          onMouseLeave={() => { isHovered.current = false; resetAuto() }}
+        >
           <AnimatePresence custom={direction} mode="wait">
             <motion.div
               key={index}
@@ -442,13 +453,14 @@ export default function Projects() {
               }}
               style={{ position: 'relative' }}
             >
-              {/* Glow system — outside overflow:hidden so embers can escape */}
+              {/* Glow system — outside overflow:hidden so embers can escape.
+                  pointer-events: none ensures hover on badges/content works. */}
               <AnimatePresence mode="wait">
                 <motion.div
                   key={`glow-${index}`}
                   initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
                   transition={{ duration: 0.6 }}
-                  style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}
+                  style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 20 }}
                 >
                   <CardGlow glow={project.glow} />
                 </motion.div>
@@ -456,6 +468,17 @@ export default function Projects() {
 
               {/* Card */}
               <div
+                ref={cardRef}
+                onMouseMove={(e) => {
+                  const rect = cardRef.current?.getBoundingClientRect()
+                  if (!rect) return
+                  setMousePos({
+                    x: (e.clientX - rect.left) / rect.width,
+                    y: (e.clientY - rect.top)  / rect.height,
+                  })
+                }}
+                onMouseEnter={() => setCardHovered(true)}
+                onMouseLeave={() => setCardHovered(false)}
                 className="relative flex flex-col md:flex-row card-surface border rounded-[32px] overflow-hidden backdrop-blur-xl"
                 style={{
                   minHeight:   '460px',
@@ -463,8 +486,8 @@ export default function Projects() {
                   boxShadow:   `0 24px 80px rgba(0,0,0,0.5)`,
                 }}
               >
-                {/* Mouse-tracked inner highlight — lives inside overflow:hidden */}
-                <MouseGlow glow={project.glow} />
+                {/* Mouse-tracked inner highlight — pointer-events:none, never blocks content */}
+                <MouseGlow glow={project.glow} mouseX={mousePos.x} mouseY={mousePos.y} visible={cardHovered} />
 
                 {/* Coloured accent stripe */}
                 <div className={`absolute left-0 top-0 bottom-0 w-[3px] bg-gradient-to-b ${project.accent}`} />
@@ -500,7 +523,6 @@ export default function Projects() {
                       <button
                         key={i}
                         onClick={() => {
-                          playClickSound()
                           setSlide([i, i > index ? 1 : -1])
                           resetAuto()
                         }}
